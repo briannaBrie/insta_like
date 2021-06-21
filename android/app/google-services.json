@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1052271491085",
+    "project_id": "instalike-flutter",
+    "storage_bucket": "instalike-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1052271491085:android:e9f89e398e8cc19c9f3d44",
+        "android_client_info": {
+          "package_name": "com.example.insta_like"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1052271491085-jnsimr1bsl5lo92nbj80p9v36nfr09qk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8kknJRP4Zf-ONL5kdaL38BcEkXI7ck_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1052271491085-jnsimr1bsl5lo92nbj80p9v36nfr09qk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
