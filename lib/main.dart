@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:insta_like/pages/HomePage.dart';
+import 'package:insta_like/screens/SignUp.dart';
+import 'package:insta_like/screens/SignIn.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 
 void main() async {
@@ -13,22 +19,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'InstaLike',
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.black,
-        dialogBackgroundColor: Colors.black,
-        primarySwatch: Colors.blueGrey,
-        cardColor: Colors.white70,
-        accentColor: Colors.black
+        textTheme: GoogleFonts.josefinSansTextTheme(Theme.of(context).textTheme),
+        primarySwatch:Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Welcome to InstaLike',
-              style:TextStyle(color:Colors.white, fontSize:20.0, fontWeight: FontWeight.bold),
-        ),
-      ),
-    body: Center(
-          child: Text('InstaLike', style: TextStyle(color: Colors.white, fontSize: 30.0),),
-      ),
-    )
+      //initialRoute: '/',
+      routes: {
+        '/':(context) => SignIn(),
+      },
     );
   }
 }
