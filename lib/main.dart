@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:insta_like/pages/HomePage.dart';
-import 'package:insta_like/screens/SignUp.dart';
-import 'package:insta_like/screens/SignIn.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:insta_like/screens/screens.dart';
 
 
 void main() async {
@@ -24,10 +20,14 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
 
       ),
-      //initialRoute: '/',
+      initialRoute: '/',
       routes: {
-        '/':(context) => SignIn(),
+        '/': (context) => SignIn(),
+        'SignUp': (context) => SignUp(),
       },
     );
   }
 }
+
+
+
