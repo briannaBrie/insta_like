@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => SignIn(),
         'SignUp': (context) => SignUp(),
+        'ForgotPassword': (context) => ForgotPasword(),
       },
     );
   }
