@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:insta_like/screens/InstaRoot.dart';
 import 'package:insta_like/screens/screens.dart';
 
 
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'InstaLike',
       theme: ThemeData(
         textTheme: GoogleFonts.josefinSansTextTheme(Theme.of(context).textTheme),
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => SignIn(),
+        '/': (context) => InstaRoot(),
         'SignUp': (context) => SignUp(),
         'ForgotPassword': (context) => ForgotPasword(),
       },
