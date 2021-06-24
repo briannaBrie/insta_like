@@ -17,8 +17,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'InstaLike',
       theme: ThemeData(
-        textTheme: GoogleFonts.josefinSansTextTheme(Theme.of(context).textTheme),
-        primarySwatch:Colors.blue,
+        textTheme: GoogleFonts.josefinSansTextTheme(Theme
+            .of(context)
+            .textTheme),
+        primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
 
       ),
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
 
 
