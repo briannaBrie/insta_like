@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:insta_like/pallete.dart';
 
-class PasswordInput extends StatelessWidget{
+class PasswordInput extends StatefulWidget{
   final IconData icon;
   final String hint;
   final TextInputType? inputType;
   final TextInputAction inputAction;
 
-  const PasswordInput({Key? key, required this.icon, required this.hint,  this.inputType, required this.inputAction}) : super(key: key);
+  const PasswordInput({
+    Key? key,
+    required this.icon,
+    required this.hint,
+    this.inputType,
+    required this.inputAction
+  }) : super(key: key);
+
+  @override
+  _PasswordInputState createState() => _PasswordInputState();
+}
+
+class _PasswordInputState extends State<PasswordInput> {
+  String _pass ="";
 
   @override
   Widget build(BuildContext context) {
@@ -22,24 +35,30 @@ class PasswordInput extends StatelessWidget{
           borderRadius: BorderRadius.circular(16),
         ),
         child: Center(
-          child: TextField(
+          child: TextFormField(
+            validator: (input){
+              if(input!.isEmpty){
+                return 'Please enter your password';
+              }
+            },
+            onSaved: (input) =>_pass = input!,
             decoration: InputDecoration(
               border: InputBorder.none,
               prefixIcon: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Icon(
-                  icon,
+                  widget.icon,
                   size: 28,
                   color: kWhite,
                 ),
               ),
-              hintText: hint,
+              hintText: widget.hint,
               hintStyle: kBodyText,
             ),
             obscureText: true,
             style: kBodyText,
-            keyboardType: inputType,
-            textInputAction: inputAction,
+            keyboardType: widget.inputType,
+            textInputAction: widget.inputAction,
           ),
         ),
       ),

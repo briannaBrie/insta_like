@@ -6,7 +6,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:insta_like/screens/InstaUpload.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:insta_like/widgets/widgets.dart';
 
 
 class InstaRoot extends StatefulWidget {
@@ -100,6 +102,7 @@ class _InstaRootState extends State<InstaRoot> {
     bool folded = true;
     if(pageIndex ==0){
       return Scaffold(
+        backgroundColor: Colors.black,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -110,36 +113,50 @@ class _InstaRootState extends State<InstaRoot> {
 
       );
     }
-    else if(pageIndex ==3){
+
+    else if(pageIndex ==2){
       //uploads
+      return Scaffold(
+        backgroundColor: Colors.black,
+        floatingActionButton: FloatingActionButton(
+          child: Icon(FontAwesomeIcons.plus,color: Colors.white,),
+          backgroundColor: Colors.pink,
+          onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => InstaUpload()));
+              },
+        ),
+      );
+    }
+    else if(pageIndex ==3){
+      //FAVORITES
       return Scaffold(
         backgroundColor: Colors.black,
         body: Container(
           margin: EdgeInsets.all(12),
           child: new StaggeredGridView.countBuilder(
             itemCount: imageList.length,
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              itemBuilder: (context, index){
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
+            crossAxisCount: 2,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            itemBuilder: (context, index){
+              return Container(
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  child:FadeInImage.memoryNetwork(
+                    placeholder: kTransparentImage,
+                    image: imageList[index],
+                    fit: BoxFit.cover,
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                    child:FadeInImage.memoryNetwork(
-                      placeholder: kTransparentImage,
-                      image: imageList[index],
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              },
-              staggeredTileBuilder: (index){
-                return new StaggeredTile.count(1,index.isEven ?1.2:1.8,);
-              },
+                ),
+              );
+            },
+            staggeredTileBuilder: (index){
+              return new StaggeredTile.count(1,index.isEven ?1.2:1.8,);
+            },
           ),
 
         ),
@@ -179,26 +196,14 @@ class _InstaRootState extends State<InstaRoot> {
     else{
       return Scaffold(
         backgroundColor: Colors.white30,
+        body: Container(
+          child: Text("Not yet implemented", style: kBodyText.copyWith(fontWeight: FontWeight.bold, color:Colors.pink),),
+        ),
       );
     }
-      //homepage
-
-
-
   }
-Widget uploadList(String pic){
-    return Container(
-      /* decoration: BoxDecoration(
-       image: DecorationImage(
-          fit:BoxFit.fill,
-          image: NetworkImage(pic),
-        ),
-      ),*/
-      child: Image.asset(pic),
-    );
-}
 
-Widget getBar(){
+  Widget getBar(){
   Size size = MediaQuery.of(context).size;
   bool folded = true;
   if(pageIndex == 0){
@@ -281,6 +286,7 @@ Widget getBar(){
     );
   }
 }
+
   Widget getFooter() {
     List footerItems = [
       pageIndex == 0
@@ -322,6 +328,7 @@ Widget getBar(){
       ),
     );
   }
+
   selectedTab(index) {
     setState(() {
       pageIndex = index;

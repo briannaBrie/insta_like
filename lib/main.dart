@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => InstaRoot(),
         'SignUp': (context) => SignUp(),
         'ForgotPassword': (context) => ForgotPasword(),
+        'InstaRoot': (context) => SignIn(),
       },
     );
   }

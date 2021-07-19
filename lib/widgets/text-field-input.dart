@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_like/pallete.dart';
 
-class TextInputField extends StatelessWidget{
+class TextInputField extends StatefulWidget{
   final IconData icon;
   final String hint;
   final TextInputType inputType;
@@ -13,10 +13,20 @@ class TextInputField extends StatelessWidget{
     required this.icon,
     required this.hint,
     required this.inputType,
-    required this.inputAction}) :
+    required this.inputAction,
+  }) :
         super(key: key);
+
+  @override
+  _TextInputFieldState createState() => _TextInputFieldState();
+}
+
+class _TextInputFieldState extends State<TextInputField> {
+  String _attribute = "";
+
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
     return Padding (padding:const EdgeInsets.symmetric(vertical: 10.0),
     child: Container(
@@ -27,25 +37,27 @@ class TextInputField extends StatelessWidget{
         borderRadius: BorderRadius.circular(16),
       ),
       child: Center(
-        child: TextField(
+        child: TextFormField(
+          validator: (input){
+            if(input!.isEmpty){
+              return 'Please fill in this field';
+            }
+          },
+          onSaved: (input) =>_attribute = input!,
           decoration: InputDecoration(
             border: InputBorder.none,
             prefixIcon: Padding(padding:const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Icon(
-              icon,
-              size: 28,
-                color: kWhite,),
+            child: Icon(widget.icon, size: 28,color: kWhite,),
             ),
-            hintText: hint,
+            hintText: widget.hint,
             hintStyle: kBodyText
           ),
           style: kBodyText,
-          keyboardType: inputType,
-            textInputAction: inputAction,
+          keyboardType: widget.inputType,
+          textInputAction: widget.inputAction,
         ),
       ),
     ),
     );
   }
-
 }

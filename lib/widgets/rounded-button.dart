@@ -5,7 +5,7 @@ class RoundedButton extends StatelessWidget{
 
   final String buttonName;
 
-  const RoundedButton({Key? key, required this.buttonName}) : super(key: key);
+  const RoundedButton({Key? key, required this.buttonName,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,9 @@ class RoundedButton extends StatelessWidget{
         color: Colors.pink,
       ),
       child: TextButton(
-        onPressed: (){},
+        onPressed: (){
+          
+        },
         child: Text(buttonName, style: kBodyText.copyWith(fontWeight: FontWeight.bold),),
       ),
     );
