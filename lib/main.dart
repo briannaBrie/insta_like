@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:insta_like/screens/InstaRoot.dart';
 import 'package:insta_like/screens/screens.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
 void main() async {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MaterialApp(
+      home: MyApp(),
+      debugShowCheckedModeBanner:false,
+  ));
 }
 
 class MyApp extends StatelessWidget {

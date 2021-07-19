@@ -9,6 +9,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:insta_like/screens/InstaUpload.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:insta_like/widgets/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 
 class InstaRoot extends StatefulWidget {
@@ -17,6 +19,7 @@ class InstaRoot extends StatefulWidget {
 }
 
 class _InstaRootState extends State<InstaRoot> {
+
   int pageIndex = 0;
   List<String> imageList = [
     "https://wallpapercave.com/wp/wp5403673.jpg",
@@ -96,10 +99,99 @@ class _InstaRootState extends State<InstaRoot> {
       bottomNavigationBar:getFooter(),
     );
   }
+  Widget getBar(){
+    Size size = MediaQuery.of(context).size;
+    if(pageIndex == 0){
+      //homepage
+      return AppBar(
+        backgroundColor: Colors.black,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            SvgPicture.asset("assets/images/camera_icon.svg", width: 30,),
+            Text(
+              'Instagram',
+              style:GoogleFonts.lobster(textStyle:headerText),
+            ),
+            SvgPicture.asset("assets/images/message_icon.svg", width: 30,),
+          ],
+        ),);
+    }
+    else if(pageIndex == 1){
+      //search page
+      return AppBar(
+        backgroundColor: Colors.black,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              'Search',
+              style:GoogleFonts.lobster(textStyle:headerText),
+            ),
+            SvgPicture.asset("assets/images/search_icon.svg", width: 30,),
+          ],
+        ),
+      );
 
+    }
+    else if(pageIndex == 2){
+      //upload page
+      return AppBar(
+        backgroundColor: Colors.black,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              'Uploads',
+              style:GoogleFonts.lobster(textStyle:headerText),
+            ),
+            SvgPicture.asset("assets/images/upload_icon.svg", width: 30,),
+          ],
+        ),);
+    }
+    else if(pageIndex == 3){
+      //Activity page
+      return AppBar(
+        backgroundColor: Colors.black,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              'Favorites',
+              style:GoogleFonts.lobster(textStyle:headerText),
+            ),
+            SvgPicture.asset("assets/images/love_icon.svg", width: 30,),
+          ],
+        ),);
+    }
+    else if(pageIndex == 4) {
+      //Subscription
+      return AppBar(
+        backgroundColor: Colors.black,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              'Profile',
+              style:GoogleFonts.lobster(textStyle:headerText),
+            ),
+            SvgPicture.asset("assets/images/account_active_icon.svg", width: 30,),
+          ],
+        ),
+      );
+    }
+    else{
+      return AppBar(
+        backgroundColor: Colors.black,
+        title:Text(
+          'Not implemented',
+          style:GoogleFonts.lobster(textStyle:headerText),
+        ),
+      );
+    }
+  }
   Widget getBody(){
     Size size = MediaQuery.of(context).size;
-    bool folded = true;
     if(pageIndex ==0){
       return Scaffold(
         backgroundColor: Colors.black,
@@ -113,7 +205,6 @@ class _InstaRootState extends State<InstaRoot> {
 
       );
     }
-
     else if(pageIndex ==2){
       //uploads
       return Scaffold(
@@ -122,9 +213,43 @@ class _InstaRootState extends State<InstaRoot> {
           child: Icon(FontAwesomeIcons.plus,color: Colors.white,),
           backgroundColor: Colors.pink,
           onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => InstaUpload()));
-              },
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => InstaUpload()));},
         ),
+        //retrieve the images added to firebase from InstaUpload
+        body: StreamBuilder<QuerySnapshot>(
+
+          //stream: FirebaseFirestore.instance.collection('imageURLS').snapshots(),
+          builder: (context,snapshot) {
+            //ensure that there is data in the container else show a progress bar
+            return !snapshot.hasData?
+            Center(
+              child: CircularProgressIndicator(),
+            ):
+            Container(
+              padding: EdgeInsets.all(3),
+              child:new StaggeredGridView.countBuilder(
+                itemCount: snapshot.data!.size,
+                staggeredTileBuilder: (int index) {
+                  return new StaggeredTile.count(1,index.isEven ?1.2:1.8,);
+                },
+                itemBuilder: (context,index) {
+                  return Container(
+                    margin: EdgeInsets.all(3),
+                    child: FadeInImage.memoryNetwork(
+                        placeholder: kTransparentImage,
+                        fit:BoxFit.cover,
+                        image: snapshot.data!.docs[index].get('url')),
+                  );
+                },
+                crossAxisCount: 3,
+                crossAxisSpacing: 9,
+                mainAxisSpacing: 9,
+              ),
+                //itemCount: ,
+            );
+          },
+        )
+        //StreamBuilder(stream: ,),
       );
     }
     else if(pageIndex ==3){
@@ -202,91 +327,6 @@ class _InstaRootState extends State<InstaRoot> {
       );
     }
   }
-
-  Widget getBar(){
-  Size size = MediaQuery.of(context).size;
-  bool folded = true;
-  if(pageIndex == 0){
-    //homepage
-    return AppBar(
-      backgroundColor: Colors.black,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        SvgPicture.asset("assets/images/camera_icon.svg", width: 30,),
-        Text(
-          'Instagram',
-          style:GoogleFonts.lobster(textStyle:headerText),
-        ),
-        SvgPicture.asset("assets/images/message_icon.svg", width: 30,),
-      ],
-    ),);
-  }
-  else if(pageIndex == 1){
-    //search page
-    return AppBar(
-      backgroundColor: Colors.black,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            'Search',
-            style:GoogleFonts.lobster(textStyle:headerText),
-          ),
-          SvgPicture.asset("assets/images/search_icon.svg", width: 30,),
-        ],
-      ),
-    );
-        
-  }
-  else if(pageIndex == 2){
-    //upload page
-    return AppBar(
-      backgroundColor: Colors.black,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            'Upload',
-            style:GoogleFonts.lobster(textStyle:headerText),
-          ),
-          SvgPicture.asset("assets/images/upload_icon.svg", width: 30,),
-        ],
-      ),);
-  }
-  else if(pageIndex == 3){
-    //Activity page
-    return AppBar(
-      backgroundColor: Colors.black,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            'Favorites',
-            style:GoogleFonts.lobster(textStyle:headerText),
-          ),
-          SvgPicture.asset("assets/images/love_icon.svg", width: 30,),
-        ],
-      ),);
-  }
-  else{
-    //Subscription
-    return AppBar(
-      backgroundColor: Colors.black,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            'Profile',
-            style:GoogleFonts.lobster(textStyle:headerText),
-          ),
-          SvgPicture.asset("assets/images/account_active_icon.svg", width: 30,),
-        ],
-      ),
-    );
-  }
-}
-
   Widget getFooter() {
     List footerItems = [
       pageIndex == 0
@@ -328,18 +368,10 @@ class _InstaRootState extends State<InstaRoot> {
       ),
     );
   }
-
   selectedTab(index) {
     setState(() {
       pageIndex = index;
     });
   }
 }
-
-
-
-
-
-
-
 
